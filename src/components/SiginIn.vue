@@ -1,110 +1,133 @@
 <template>
   <div class="login-frame">
-    <div class="link" />
-
-    <div class="main">
-        <div class="heading-sign-in-to"> Sign in to DoitU </div> 
-    
-    <!-- <img
-        class="background-border"
-        alt="Background border"
-        :src="backgroundBorder"
-        /> -->
+    <div class="icon">
+      <img src="./assets/images/checked.png" alt="Check Icon" />
+    </div>
+    <h2 class="title">Sign in to DoitU</h2>
+    <div class="login-container">
+      <form class="login-form">
+        <label for="id">ID</label>
+        <input type="text" id="id" name="id" placeholder="Enter your ID" />
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Enter your password"
+        />
+        <button type="submit" class="btn-login">Sign in</button>
+      </form>
+    </div>
+    <div class="signup">
+      <a href="#" class="create-account">Create an account</a>
+    </div>
   </div>
-
-  <!-- <img class="border" alt="Border" :src="border" /> -->
-
-  <Component1 class="component" color="white" />
-  </div>
-
 </template>
 
 <script>
-import Component1 from "./Component1";
-// import backgroundBorder from "./background-border.png";
-// import border from "./border.png";
-
 export default {
-    name: "LoginFrame",
-    components: {
-        Component1,
-    },
-    data(){
-        return {
-            // backgroundBorder,
-            // border,
-        };
-    },
+  name: "LoginFrame",
+  components: {},
+  data() {
+    return {};
+  },
 };
 </script>
 
 <style>
-.login-frame{
-    background-color: #31be86;
-    height: 612px;
-    position: relative;
-    width: 1440px;
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #5cb784;
 }
 
-.login-frame .link{
-    background-color: #1f6feb;
-    height: 1px;
-    left: 0;
-    position: absolute;
-    top: 0;
-    width: 1px;
+.login-frame {
+  background-color: #31be86;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.login-frame .main {
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    left: 560px;
-    padding: 0px 16px;
-    position: absolute;
-    top: 144px;
-    width: 320px;
+.login-container {
+  width: 300px;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+.signup {
+  width: 300px;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+.icon img {
+  width: 40px;
+  height: 40px;
+  margin-bottom: 10px;
 }
 
-.login-frame .heading-sign-in-to{
-color: var(--githubcompolar);
-font-family: var(--github-com-semantic-geading-1-font-family);
-font-size: var(--github-com-semantic-geading-1-font-size);
-font-style: var(--github-com-semantic-geading-1-font-style);
-font-weight: var(--github-com-semantic-geading-1-font-weight);
-letter-spacing: var(--github-com-semantic-geading-1-letter-spacing);
-line-height: var(--github-com-semantic-geading-1-line-height);
-margin-top: -1.00px;
-position: relative;
-text-align: center;
-white-space: nowrap;
-width: fit-content;
+.title {
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 20px;
 }
 
-.login-frame .background-border {
-    align-self: stretch;
-    height: 230px;
-    position: relative;
-    width: 100%;
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.login-frame .border {
-    height: 55px;
-    left: 576px;
-    position: absolute;
-    top: 452px;
-    position: absolute;
-    top: 452px;
-    width: 288px;
+.login-form label {
+  font-size: 14px;
+  color: #333333;
+  text-align: left;
 }
 
-.login-frame .compoent {
-    height: 32px !important;
-    left: 704px !important;
-    position: absolute !important;
-    top: 112px !important;
-    width: 32px !important;
+.login-form input {
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
 }
 
+.btn-login {
+  margin-top: 10px;
+  padding: 10px;
+  font-size: 14px;
+  color: #ffffff;
+  background-color: #1f883d;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-login:hover {
+  background-color: #146828;
+}
+
+.create-account {
+  display: block;
+  font-size: 15px;
+  color: #0969da;
+  text-decoration: none;
+}
+
+.create-account:hover {
+  text-decoration: underline;
+}
 </style>

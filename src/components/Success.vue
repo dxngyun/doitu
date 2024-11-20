@@ -1,10 +1,8 @@
 <template>
   <div class="screen">
-    
-
     <div class="main">
       <div>
-        <img src="../assets/images/checked.png">
+        <img src="../assets/images/checked.png" />
       </div>
       <div>
         <p class="heading-sign-in-to">
@@ -39,13 +37,10 @@ body {
   background-color: #31be86;
   align-items: center;
   height: 100vh;
-  /* width: 100%; 1440px */
   justify-content: center;
   display: flex;
   text-align: center;
 }
-
-
 
 .screen .main {
   display: flex;
@@ -58,7 +53,6 @@ body {
 .screen .heading-sign-in-to {
   align-self: stretch;
   color: white;
-
   font-family: "Noto Sans-Bold", Helvetica;
   font-size: 28.2px;
   font-weight: 700;

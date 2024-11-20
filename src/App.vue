@@ -1,108 +1,133 @@
 <template>
-  <div class="screen">
-    
-
-    <div class="main">
-      <div>
-        <img src="./assets/images/checked.png">
-      </div>
-      <div>
-        <p class="heading-sign-in-to">
-          Congratulations !
-          <br />
-          <br />
-          Now, use DoitU to manage your schedule efficiently
-        </p>
-      </div>
-
-      <div class="component">
-        <div class="text">Use it now</div>
-      </div>
+  <div class="login-frame">
+    <div class="icon">
+      <img src="./assets/images/checked.png" alt="Check Icon" />
+    </div>
+    <h2 class="title">Sign in to DoitU</h2>
+    <div class="login-container">
+      <form class="login-form">
+        <label for="id">ID</label>
+        <input type="text" id="id" name="id" placeholder="Enter your ID" />
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Enter your password"
+        />
+        <button type="submit" class="btn-login">Sign in</button>
+      </form>
+    </div>
+    <div class="signup">
+      <a href="#" class="create-account">Create an account</a>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "MyScreen",
+  name: "LoginFrame",
   components: {},
+  data() {
+    return {};
+  },
 };
 </script>
 
 <style>
 body {
+  margin: 0;
   padding: 0;
-  margin: 0 auto;
-}
-
-.screen {
-  background-color: #31be86;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
   align-items: center;
   height: 100vh;
-  /* width: 100%; 1440px */
-  justify-content: center;
-  display: flex;
-  text-align: center;
+  background-color: #5cb784;
 }
 
-
-
-.screen .main {
-  display: flex;
+.login-frame {
+  background-color: #31be86;
   align-items: center;
-  text-align: center;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.screen .heading-sign-in-to {
-  align-self: stretch;
-  color: white;
-
-  font-family: "Noto Sans-Bold", Helvetica;
-  font-size: 28.2px;
-  font-weight: 700;
-  letter-spacing: -0.5px;
-  line-height: 36px;
-  position: relative;
-  text-align: center;
-}
-
-.screen .component {
-  display: flex;
   justify-content: center;
-  align-items: center;
-  background-color: #1f883d;
-  border: 1px solid;
-  border-color: #1f232826;
-  border-radius: 6px;
+  text-align: center;
+  height: 100vh;
+  display: flex;
   flex-direction: column;
-  overflow: hidden;
+  gap: 10px;
+}
+
+.login-container {
   width: 300px;
-}
-
-.screen .text {
-  color: #ffffff;
-  font-family: var(--github-com-noto-sans-display-medium-font-family);
-  font-size: var(--github-com-noto-sans-display-medium-font-size);
-  font-style: var(--github-com-noto-sans-display-medium-font-style);
-  font-weight: var(--github-com-noto-sans-display-medium-font-weight);
-  letter-spacing: var(--github-com-noto-sans-display-medium-letter-spacing);
-  line-height: var(--github-com-noto-sans-display-medium-line-height);
-  /* margin-left: -51.69px;
-  margin-right: -51.69px;
-  margin-top: -1px; */
-  position: relative;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   text-align: center;
-  white-space: nowrap;
-  width: fit-content;
+}
+.signup {
+  width: 300px;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+.icon img {
+  width: 40px;
+  height: 40px;
+  margin-bottom: 10px;
 }
 
-.screen .component-1 {
-  height: 32px !important;
-  left: 704px !important;
-  position: absolute !important;
-  top: 128px !important;
-  width: 32px !important;
+.title {
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 20px;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.login-form label {
+  font-size: 14px;
+  color: #333333;
+  text-align: left;
+}
+
+.login-form input {
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+}
+
+.btn-login {
+  margin-top: 10px;
+  padding: 10px;
+  font-size: 14px;
+  color: #ffffff;
+  background-color: #1f883d;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-login:hover {
+  background-color: #146828;
+}
+
+.create-account {
+  display: block;
+  font-size: 15px;
+  color: #0969da;
+  text-decoration: none;
+}
+
+.create-account:hover {
+  text-decoration: underline;
 }
 </style>
