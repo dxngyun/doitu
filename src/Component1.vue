@@ -26,7 +26,7 @@ export default {
 <style>
 .component {
   left: 0;
-  position: absolute;
+  
   top: 0;
 }
 
