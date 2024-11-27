@@ -1,10 +1,10 @@
-name: Merge dd1125 to main
+name: Merge dd1125 to main 02
 
 on:
   push:
     branches:
       - dd1125
-  workflow_dispatch: # 수동 실행 트리거 추가
+  workflow_dispatch:
 
 jobs:
   merge:
@@ -15,20 +15,15 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v3
 
-    # main 브랜치 체크아웃
-    - name: Checkout main branch
+    # 브랜치 병합
+    - name: Fetch and Merge dd1125 into main
       run: |
-        git config --global user.name "GitHub Actions"
-        git config --global user.email "actions@github.com"
+        git fetch origin dd1125
         git checkout main
-
-    # dd1125 브랜치 병합
-    - name: Merge dd1125 into main
-      run: |
         git merge origin/dd1125
         git push origin main
 
-    # 병합 결과 알림 (옵션)
+    # 병합 결과 알림
     - name: Notify Merge Success
       if: success()
       run: echo "Successfully merged dd1125 into main!"
