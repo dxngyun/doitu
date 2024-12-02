@@ -10,7 +10,7 @@ on:
       head:
         description: 'Branch to merge from (default: dd1125)'
         required: false
-        default: 'dd1125'
+        default: 'origin/dd1125'
 
 jobs:
   merge:
@@ -28,8 +28,10 @@ jobs:
       - name: Fetch all branches
         run: git fetch --all
 
-      - name: Merge dd1125 into version2
+      - name: Check out the base branch
+        run: git checkout ${{ inputs.base }}
+
+      - name: Merge head branch into base branch
         run: |
-          git checkout ${{ inputs.base }}
           git merge --no-ff ${{ inputs.head }}
           git push origin ${{ inputs.base }}
