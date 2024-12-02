@@ -33,10 +33,10 @@
       <button class="diary-save-button" @click="saveDiary">일기 저장</button>
 
       <!-- 루틴 목록 -->
-      <div class="routines" v-if="dayData?.routineDto?.length">
+      <div class="routines" v-if="dayData?.routines?.length">
         <p>오늘의 루틴</p>
         <div
-          v-for="(routine, index) in dayData?.routineDto"
+          v-for="(routine, index) in dayData.routines"
           :key="index"
           class="routine"
           :style="{ backgroundColor: routine.color }"
@@ -46,10 +46,10 @@
       </div>
 
       <!-- 할 일 목록 -->
-      <div class="events" v-if="dayData?.todoDto?.length">
+      <div class="events" v-if="dayData?.todos?.length">
         <p>오늘의 할 일</p>
         <div
-          v-for="(todo, index) in dayData?.todoDto"
+          v-for="(todo, index) in dayData.todos"
           :key="index"
           class="event"
           :class="{ done: todo.done }"
