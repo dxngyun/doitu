@@ -21,7 +21,7 @@
             {{ emoji }}
           </span>
         </div>
-        <button class="emoji-save-button" @click="saveEmoji">이모지 저장</button>
+        <button class="emoji-save-button" @click="saveEmoji">이모지 저장!</button>
       </div>
 
       <!-- 간단한 일기 작성 -->
