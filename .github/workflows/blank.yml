@@ -1,0 +1,44 @@
+name: Merge dd1125 to version2
+
+on:
+  workflow_dispatch:
+    inputs:
+      base:
+        description: 'Base branch to merge into (default: version2)'
+        required: false
+        default: 'version2'
+      head:
+        description: 'Branch to merge from (default: origin/dd1125)'
+        required: false
+        default: 'origin/dd1125'
+
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Configure Git
+        run: |
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
+
+      - name: Fetch all branches
+        run: git fetch --all
+
+      - name: Check out the base branch
+        run: git checkout ${{ inputs.base }}
+
+      - name: Merge head branch into base branch
+        id: merge
+        run: |
+          git merge --no-ff ${{ inputs.head }} || echo "::error::Merge conflict detected. Please resolve conflicts manually."
+        continue-on-error: true
+
+      - name: Commit the merge result (if resolved)
+        if: failure() && steps.merge.outcome == 'failure'
+        run: |
+          git status
+          echo "::error::Merge conflict detected. Resolve conflicts and push the result manually."

@@ -3,6 +3,8 @@
 ## Project setup
 ```
 yarn install
+yarn add @vue/cli
+yarn add @popperjs/core
 ```
 
 ### Compiles and hot-reloads for development
