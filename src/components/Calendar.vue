@@ -3,6 +3,8 @@
     <vc-calendar
       v-model="currentDate"
       :is-expanded="true"
+      @update:model-value="onDateChange"
+      @did-move="fetchCalendarData"
     >
       <template #day-content="{ day }">
         <div
@@ -58,40 +60,71 @@ export default {
       dayData: [],
     };
   },
+  computed: {
+    currentMonthYear() {
+      return `${this.currentDate.getFullYear()}년 ${this.currentDate.getMonth() + 1}월`;
+    },
+  },
   methods: {
     async fetchCalendarData() {
       try {
-        const year = this.currentDate.getFullYear();
-        const month = this.currentDate.getMonth() + 1;
-        console.log(`Fetching calendar data for ${year}-${month}`);
-        const response = await axios.get(`/doitu/api/calender/${year}/${month}`);
-        console.log("API response for calendar data:", response.data);
+        const currentYear = this.currentDate.getFullYear();
+        const currentMonth = this.currentDate.getMonth() + 1;
+        
+        // 현재 월 데이터 가져오기
+        const currentMonthData = await this.fetchMonthData(currentYear, currentMonth);
+        
+        // 이전 월 데이터 가져오기
+        const prevMonth = currentMonth === 1 ? 12 : currentMonth - 1;
+        const prevYear = currentMonth === 1 ? currentYear - 1 : currentYear;
+        const prevMonthData = await this.fetchMonthData(prevYear, prevMonth);
+        
+        // 다음 월 데이터 가져오기
+        const nextMonth = currentMonth === 12 ? 1 : currentMonth + 1;
+        const nextYear = currentMonth === 12 ? currentYear + 1 : currentYear;
+        const nextMonthData = await this.fetchMonthData(nextYear, nextMonth);
+        
+        // 데이터 통합
+        this.dayData = [
+          ...prevMonthData,
+          ...currentMonthData,
+          ...nextMonthData
+        ];
 
-        if (response.data.statusCode === 200) {
-          this.dayData = response.data.calenderDto.map((entry) => ({
-            date: entry.date,
-            emoji: entry.emoji,
-            events: [
-              ...entry.todoDto.map((todo) => `${todo.title} (${todo.done ? "완료" : "미완료"})`),
-            ],
-            routine: this.processRoutine(entry.routineDto, entry.date),
-          }));
-          console.log("Processed day data:", this.dayData);
-        } else {
-          console.error("캘린더 데이터를 불러오는 데 실패했습니다:", response.data.msg);
-          alert("캘린더 데이터를 불러오는 데 실패했습니다.");
-        }
+        console.log("전체 캘린더 데이터:", this.dayData);
       } catch (error) {
-        console.error("Error fetching calendar data:", error);
+        console.error("캘린더 데이터를 불러오는 중 오류:", error);
         alert("캘린더 데이터를 불러오는 중 오류가 발생했습니다.");
       }
     },
+
+    async fetchMonthData(year, month) {
+      try {
+        console.log(`${year}-${month} 데이터 가져오는 중`);
+        const response = await axios.get(`/doitu/api/calender/${year}/${month}`);
+        
+        if (response.data.statusCode === 200) {
+          return response.data.calenderDto.map((entry) => ({
+            date: entry.date,
+            emoji: entry.emoji,
+            events: entry.todoDto.map((todo) => 
+              `${todo.title} (${todo.done ? "완료" : "미완료"})`
+            ),
+            routine: this.processRoutine(entry.routineDto, entry.date),
+          }));
+        }
+        return [];
+      } catch (error) {
+        console.error(`${year}-${month} 데이터 로딩 실패:`, error);
+        return [];
+      }
+    },
+
     async fetchDiaryData(date) {
       try {
-        console.log(`Fetching diary data for ${date}`);
+        console.log(`일기 데이터 가져오기: ${date}`);
         const response = await axios.get(`/doitu/api/calender/${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`);
-        console.log("API response for diary data:", response.data);
-
+        
         if (response.data.statusCode === 200) {
           const diaryData = {
             emoji: response.data.emoji || "",
@@ -99,30 +132,32 @@ export default {
             routines: response.data.routineDto || [],
             todos: response.data.todoDto || [],
           };
-          console.log("Processed diary data:", diaryData);
+          console.log("일기 데이터:", diaryData);
           return diaryData;
         } else {
-          console.error("일기를 불러오는 데 실패했습니다:", response.data.msg);
+          console.error("일기를 불러오는 데 실패:", response.data.msg);
           alert("일기를 불러오는 데 실패했습니다.");
         }
       } catch (error) {
-        console.error("Error fetching diary data:", error);
+        console.error("일기 데이터 로딩 중 오류:", error);
         alert("일기를 불러오는 중 오류가 발생했습니다.");
       }
       return null;
     },
+
     async onDayClick(day) {
-      console.log("Day clicked:", day);
+      console.log("선택된 날짜:", day);
       const formattedDate = this.formatDateToISO(day.date);
-      console.log("Formatted date:", formattedDate);
+      console.log("포맷된 날짜:", formattedDate);
 
       const dayData = await this.fetchDiaryData(day.date);
-      console.log("Selected day data:", dayData);
+      console.log("선택된 날 데이터:", dayData);
 
       this.selectedDayData = dayData || { events: [], routine: [], diary: "", emoji: "" };
       this.selectedDate = formattedDate;
       this.isModalOpen = true;
     },
+
     processRoutine(routineDto, date) {
       const weekDay = new Date(date).getDay();
       const weekKeys = ["sun", "mon", "tue", "wed", "thr", "fri", "sat"];
@@ -132,37 +167,37 @@ export default {
           title: routine.title,
           color: routine.color,
         }));
-      console.log("Processed routines for date:", date, routines);
+      console.log(`${date} 루틴:`, routines);
       return routines;
     },
+
     getDayData(date) {
       const formattedDate = this.formatDateToISO(date);
       const data = this.dayData.find((d) => d.date === formattedDate);
-      console.log("Data for day:", formattedDate, data);
       return data;
     },
+
     formatDateToISO(date) {
       const offsetDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
       const isoDate = offsetDate.toISOString().split("T")[0];
-      console.log("Formatted ISO date:", isoDate);
       return isoDate;
     },
+
     handleModalClose({ emoji, diary }) {
-      console.log("Modal closed with data:", { emoji, diary });
+      console.log("모달 닫힘 데이터:", { emoji, diary });
+      this.fetchCalendarData(); // 데이터 새로고침
       this.isModalOpen = false;
     },
-  },
-  mounted() {
-    console.log("Mounted Calendar component");
-    this.fetchCalendarData();
-  },
-  watch: {
-    currentDate(newDate, oldDate) {
-      if (newDate.getMonth() !== oldDate.getMonth() || newDate.getFullYear() !== oldDate.getFullYear()) {
-        console.log("Date changed, fetching new calendar data");
-        this.fetchCalendarData();
-      }
+
+    onDateChange(newDate) {
+      this.currentDate = newDate;
+      console.log('날짜 변경:', newDate);
     },
+  },
+
+  mounted() {
+    console.log("Calendar 컴포넌트 마운트됨");
+    this.fetchCalendarData();
   },
 };
 </script>
