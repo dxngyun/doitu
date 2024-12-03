@@ -105,36 +105,34 @@ export default {
       this.selectedEmoji = emoji;
     },
     async saveEmoji() {
-      try {
-        if (this.selectedEmoji) {
-          await axios.post("/doitu/api/calender/emoji", {
-            date: this.formattedDate,
-            emoji: this.selectedEmoji,
-          });
-          alert("이모지가 저장되었습니다!");
-          this.$emit("updateEmoji", {
-            date: this.formattedDate,
-            emoji: this.selectedEmoji,
-          });
-        }
-      } catch (error) {
-        console.error("이모지 저장 중 오류 발생:", error);
-        alert("이모지 저장에 실패했습니다.");
-      }
-    },
+  try {
+    if (this.selectedEmoji) {
+      await axios.post("/doitu/api/calender/emoji", {
+        date: this.formattedDate,
+        emoji: this.selectedEmoji,
+      });
+      alert("이모지가 저장되었습니다!");
+      this.$emit("close", { emoji: this.selectedEmoji, diary: this.diaryText }); // 부모로 데이터 전달
+    }
+  } catch (error) {
+    console.error("이모지 저장 중 오류 발생:", error);
+    alert("이모지 저장에 실패했습니다.");
+  }
+},
     async saveDiary() {
       try {
-        if (this.diaryText.trim() !== "") {
-          await axios.post("/doitu/api/calender/diary", {
-            date: this.formattedDate,
-            diary: this.diaryText,
-          });
-          alert("일기가 저장되었습니다!");
-        }
-      } catch (error) {
-        console.error("일기 저장 중 오류 발생:", error);
-        alert("일기 저장에 실패했습니다.");
-      }
+    if (this.diaryText.trim() !== "") {
+      await axios.post("/doitu/api/calender/diary", {
+        date: this.formattedDate,
+        diary: this.diaryText,
+      });
+      alert("일기가 저장되었습니다!");
+      this.$emit("close", { emoji: this.selectedEmoji, diary: this.diaryText }); // 부모로 데이터 전달
+    }
+  } catch (error) {
+    console.error("일기 저장 중 오류 발생:", error);
+    alert("일기 저장에 실패했습니다.");
+  }
     },
   },
 };
