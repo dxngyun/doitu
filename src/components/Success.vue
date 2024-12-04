@@ -24,7 +24,7 @@
 export default {
   name: "MyScreen",
   methods:{
-    goToMain(){this.$router.push("/sigin");}
+    goToMain(){this.$router.push("/");}
   },
   components: {},
   

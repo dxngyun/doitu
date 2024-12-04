@@ -58,7 +58,7 @@ export default {
         })
         .then((response) => {
           if (response.data.statusCode === 200) {
-            alert("로그인 성공");
+          
             this.$router.push("/maincontainer");
           } else {
             alert("로그인 실패: " + response.data.statusCode);
@@ -69,7 +69,6 @@ export default {
         });
       // 위는 api 구현 전 로그인 성공 로직 추가 코드 (사용자 인증)
       // axios 요청을 위해서는 1. axios를 import 해줘야함. 2.data() 안에 보낼 데이터가 존재해야함.
-
       // '/main' 경로로 이동
     },
   },

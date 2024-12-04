@@ -52,7 +52,7 @@ export default {
         })
         .then((response) => {
           if (response.data.statusCode === 200) {
-            alert("Sign-up successful");
+            
             this.$router.push("/success");
           } else {
             alert("Sign-up failed: " + response.data.message);
